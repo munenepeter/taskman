@@ -9,11 +9,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
 class TaskController extends Controller {
+    /**
+     *  Get api/v1/tasks - filtered task list
+     */
     public function index(Request $request) {
-
         try {
             $query = Task::query();
-//handle search, paginaton & sorting here
+            //handle search, paginaton & sorting here
             if ($request->has('status')) {
                 $query->where('status', $request->input('status'));
             }
@@ -35,7 +37,11 @@ class TaskController extends Controller {
             return $this->error($e->getMessage(), "Something happened");
         }
     }
-
+    /**
+     * Get api/v1/tasks/{id} - get a task by id
+     * 
+     * we are using a string or a int here cause lumen does not natively handle route model binding
+     */
     public function show(string|int $task) {
         try {
             return $this->success(Task::findOrFail($task));
@@ -43,7 +49,7 @@ class TaskController extends Controller {
             return $this->error($e->getMessage(), "Could not search the provided task");
         }
     }
-
+    //create a new task
     public function store(Request $request) {
         try {
             $validated = $this->validate($request, [
@@ -62,7 +68,7 @@ class TaskController extends Controller {
             return $this->error("Something went wrong", $e->getMessage());
         }
     }
-
+    // * we are using a string or a int here cause lumen does not natively handle route model binding
     public function update(Request $request, string|int $task_id) {
         try {
             $validated = $this->validate($request, [
@@ -85,7 +91,8 @@ class TaskController extends Controller {
         }
     }
 
-
+    //  * we are using a string or a int here cause lumen does not natively handle route model binding
+    // and didn't want to install additional libs
     public function delete(string|int $task_id) {
 
         $task = Task::findOrFail($task_id);
@@ -95,7 +102,7 @@ class TaskController extends Controller {
         }
         return $this->success(null, 204);
     }
-
+    //helper for a fail response
     protected function error(string $message, $errors = null, int $code = 422) {
         if ($message == null && is_string($errors)) {
             $message = $errors;
@@ -107,7 +114,7 @@ class TaskController extends Controller {
             'status' => 'error'
         ], $code);
     }
-
+    //helper for a success response
     protected function success(mixed $data = null, int $code = 200) {
         return response()->json([
             'errors' => null,
