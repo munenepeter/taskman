@@ -8,7 +8,7 @@ Build a simple RESTful API using Lumen that allows users to manage tasks. The AP
 1. clone the repo 
 
 ```sh
-git clone 
+git clone git@github.com:munenepeter/taskman.git
 
 ```
 2. install dependencies & set up .env
@@ -76,10 +76,10 @@ curl -X GET http://localhost:8000/api/v1/tasks/1 #id is 1
 curl -X POST http://localhost:8000//api/v1/tasks \
   -H "Content-Type: application/json" \
   -d '{
-        "title": "New Task",
-        "description": "This is the task description",
+        "title": "This New",
+        "description": "This task description",
         "status": "pending",
-        "due_date": "2024-12-31"
+        "due_date": "2024-10-31"
       }'
 ```
 
@@ -89,17 +89,17 @@ curl -X POST http://localhost:8000//api/v1/tasks \
 curl -X PUT http://localhost:8000/api/v1/tasks/1 \
   -H "Content-Type: application/json" \
   -d '{
-        "title": "Updated",
+        "title": "This Updated",
         "description": "Updated description",
         "status": "completed",
-        "due_date": "2024-12-31"
+        "due_date": "2024-10-31"
       }'
 ```
 
 #### 5. Delete a task (`DELETE /api/v1/tasks/{task}`)
 
 ```sh
-curl -X DELETE http://localhost:8000/api/v1/tasks/1
+curl -X DELETE http://localhost:8000/api/v1/tasks/1 #1 is the id
 ```
 
 
